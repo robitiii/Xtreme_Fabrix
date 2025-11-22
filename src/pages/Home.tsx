@@ -7,12 +7,11 @@ import TestimonialCard from "@/components/TestimonialCard";
 import { Car, Armchair, Sparkles, Volume2, Wrench, ArrowRight } from "lucide-react";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import bgVideo from "@/assets/bg-video.mp4";
-import heroImage from "@/assets/hero-workshop.jpg";
 import upholsteryImage from "@/assets/upholstery-work.jpg";
 import leatherImage from "@/assets/leather-restoration.jpg";
 import roofImage from "@/assets/roof-lining.jpg";
-import soundproofImage from "@/assets/soundproofing.jpg";
-import dashboardImage from "@/assets/dashboard-repair.jpg";
+import engineImage from "@/assets/engine-image.png";
+import dashboardImage from "@/assets/dashboard-repair.png";
 
 const Home = () => {
   const services = [
@@ -29,16 +28,16 @@ const Home = () => {
       image: leatherImage,
     },
     {
-      title: "Roof Lining Replacement",
+      title: "Car Roof restorations",
       description: "Expert headliner installation and repair. Say goodbye to sagging or damaged roof linings.",
       icon: Car,
       image: roofImage,
     },
     {
-      title: "Soundproofing",
-      description: "Premium acoustic dampening for a quieter, more refined driving experience.",
+      title: "Engine bay detailing",
+      description: "Professional engine bay detailing. Clean, safe, and efficient. Get your car looking its best.",
       icon: Volume2,
-      image: soundproofImage,
+      image: engineImage,
     },
     {
       title: "Dashboard Repairs",

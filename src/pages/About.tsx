@@ -2,6 +2,7 @@ import { Helmet } from "react-helmet-async";
 import { motion } from "framer-motion";
 import { Award, Target, Heart, Shield } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
+import  aboutImage from "@/assets/about_image.png";
 
 const About = () => {
   const values = [
@@ -64,17 +65,24 @@ const About = () => {
                 viewport={{ once: true }}
                 transition={{ duration: 0.6 }}
               >
-                <h2 className="text-4xl font-black mb-8">Our Story</h2>
-                <div className="space-y-6 text-lg text-muted-foreground">
-                  <p>
-                    Xtreme Fabrix Solutions was born from a passion for automotive excellence and a commitment to transforming vehicle interiors into works of art. Based in the heart of Cape Town, we've built our reputation on precision craftsmanship and unwavering dedication to quality.
-                  </p>
-                  <p>
-                    What started as a small workshop has grown into one of Cape Town's most trusted automotive upholstery specialists. Our team combines traditional upholstery techniques with modern innovation, ensuring every project meets the highest standards of quality and durability.
-                  </p>
-                  <p>
-                    From luxury vehicles to classic restorations, we approach each project with the same level of care and expertise. Our clients trust us not just for our technical skills, but for our genuine passion for automotive interiors and our commitment to exceeding expectations.
-                  </p>
+                <div className="grid gap-10 lg:grid-cols-2 items-start">
+                  <div>
+                    <h2 className="text-4xl font-black mb-8">Our Story</h2>
+                    <div className="space-y-6 text-lg text-muted-foreground">
+                      <p>
+                        Xtreme Fabrix Solutions was born from a passion for automotive excellence and a commitment to transforming vehicle interiors into works of art. Based in the heart of Cape Town, we've built our reputation on precision craftsmanship and unwavering dedication to quality.
+                      </p>
+                      <p>
+                        What started as a small workshop has grown into one of Cape Town's most trusted automotive upholstery specialists. Our team combines traditional upholstery techniques with modern innovation, ensuring every project meets the highest standards of quality and durability.
+                      </p>
+                      <p>
+                        From luxury vehicles to classic restorations, we approach each project with the same level of care and expertise. Our clients trust us not just for our technical skills, but for our genuine passion for automotive interiors and our commitment to exceeding expectations.
+                      </p>
+                    </div>
+                  </div>
+                  <div className="w-full h-64 md:h-80 bg-card border border-dashed border-border rounded-xl flex items-center justify-center">
+                    <img src={aboutImage} alt="About Us" className="max-h-full rounded-xl" />
+                  </div>
                 </div>
               </motion.div>
             </div>

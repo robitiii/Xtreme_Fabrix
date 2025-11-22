@@ -93,7 +93,18 @@ const Footer = () => {
         </div>
 
         <div className="border-t border-border mt-8 pt-8 text-center text-sm text-muted-foreground">
-          <p>&copy; {new Date().getFullYear()} Xtreme Fabrix Solutions. All rights reserved.</p>
+          <p>
+            &copy; {new Date().getFullYear()} Xtreme Fabrix Solutions. All rights reserved. Created by{' '}
+            <a
+              href="https://robq.online"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-semibold hover:text-blue-400 transition-colors"
+            >
+              RobQTech
+            </a>
+            .
+          </p>
         </div>
       </div>
     </footer>

@@ -1,6 +1,7 @@
 import { Helmet } from "react-helmet-async";
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -13,11 +14,11 @@ import { useToast } from "@/hooks/use-toast";
 import { MapPin, Phone, Mail, Clock } from "lucide-react";
 
 const contactSchema = z.object({
-  name: z.string().min(2, "Name must be at least 2 characters").max(100),
-  email: z.string().email("Invalid email address"),
-  phone: z.string().min(10, "Phone number must be at least 10 digits"),
-  subject: z.string().min(5, "Subject must be at least 5 characters").max(200),
-  message: z.string().min(10, "Message must be at least 10 characters").max(1000),
+  nameFabrixContact: z.string().min(2, "Name must be at least 2 characters").max(100),
+  emailFabrixContact: z.string().email("Invalid email address"),
+  phoneFabrixContact: z.string().min(10, "Phone number must be at least 10 digits"),
+  subjectFabrixContact: z.string().min(5, "Subject must be at least 5 characters").max(200),
+  messageFabrixContact: z.string().min(10, "Message must be at least 10 characters").max(1000),
 });
 
 type ContactFormData = z.infer<typeof contactSchema>;
@@ -25,33 +26,70 @@ type ContactFormData = z.infer<typeof contactSchema>;
 const Contact = () => {
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.hash === "#contact-form") {
+      const element = document.getElementById("contact-form");
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth" });
+      }
+    }
+  }, [location]);
 
   const form = useForm<ContactFormData>({
     resolver: zodResolver(contactSchema),
     defaultValues: {
-      name: "",
-      email: "",
-      phone: "",
-      subject: "",
-      message: "",
+      nameFabrixContact: "",
+      emailFabrixContact: "",
+      phoneFabrixContact: "",
+      subjectFabrixContact: "",
+      messageFabrixContact: "",
     },
   });
 
   const onSubmit = async (data: ContactFormData) => {
     setIsSubmitting(true);
-    
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 1500));
-    
-    console.log("Contact form submitted:", data);
-    
-    toast({
-      title: "Message Sent!",
-      description: "We'll get back to you as soon as possible.",
-    });
-    
-    form.reset();
-    setIsSubmitting(false);
+
+    try {
+      const webhookUrl = import.meta.env.VITE_MAKE_BOOKING_WEBHOOK_URL;
+
+      if (!webhookUrl) {
+        console.error("Missing VITE_MAKE_BOOKING_WEBHOOK_URL env variable");
+        throw new Error("Contact webhook URL is not configured.");
+      }
+
+      const response = await fetch(webhookUrl, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+
+      if (!response.ok) {
+        console.error("Contact webhook error", response.status, response.statusText);
+        throw new Error("Failed to submit contact form.");
+      }
+
+      console.log("Contact form submitted:", data);
+
+      toast({
+        title: "Message Sent!",
+        description: "We'll get back to you as soon as possible.",
+      });
+
+      form.reset();
+    } catch (error) {
+      console.error("Contact submission failed:", error);
+      toast({
+        title: "Something went wrong",
+        description: "We couldn't send your message. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -171,6 +209,7 @@ const Contact = () => {
 
               {/* Contact Form */}
               <motion.div
+                id="contact-form"
                 initial={{ opacity: 0, x: 30 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.8 }}
@@ -182,7 +221,7 @@ const Contact = () => {
                       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
                         <FormField
                           control={form.control}
-                          name="name"
+                          name="nameFabrixContact"
                           render={({ field }) => (
                             <FormItem>
                               <FormLabel>Name *</FormLabel>
@@ -196,7 +235,7 @@ const Contact = () => {
 
                         <FormField
                           control={form.control}
-                          name="email"
+                          name="emailFabrixContact"
                           render={({ field }) => (
                             <FormItem>
                               <FormLabel>Email *</FormLabel>
@@ -210,7 +249,7 @@ const Contact = () => {
 
                         <FormField
                           control={form.control}
-                          name="phone"
+                          name="phoneFabrixContact"
                           render={({ field }) => (
                             <FormItem>
                               <FormLabel>Phone *</FormLabel>
@@ -224,7 +263,7 @@ const Contact = () => {
 
                         <FormField
                           control={form.control}
-                          name="subject"
+                          name="subjectFabrixContact"
                           render={({ field }) => (
                             <FormItem>
                               <FormLabel>Subject *</FormLabel>
@@ -238,7 +277,7 @@ const Contact = () => {
 
                         <FormField
                           control={form.control}
-                          name="message"
+                          name="messageFabrixContact"
                           render={({ field }) => (
                             <FormItem>
                               <FormLabel>Message *</FormLabel>

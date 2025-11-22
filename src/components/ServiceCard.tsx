@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { LucideIcon } from "lucide-react";
@@ -11,7 +12,7 @@ interface ServiceCardProps {
   onClick?: () => void;
 }
 
-const ServiceCard = ({ title, description, icon: Icon, image, onClick }: ServiceCardProps) => {
+const ServiceCard = ({ title, description, icon: Icon, image }: ServiceCardProps) => {
   return (
     <motion.div
       whileHover={{ y: -8 }}
@@ -39,13 +40,14 @@ const ServiceCard = ({ title, description, icon: Icon, image, onClick }: Service
           <CardDescription>{description}</CardDescription>
         </CardHeader>
         <CardFooter>
-          <Button 
-            variant="outline" 
-            className="w-full hover:bg-primary hover:text-primary-foreground"
-            onClick={onClick}
-          >
-            Learn More
-          </Button>
+          <Link to="/contact#contact-form" className="w-full">
+            <Button 
+              variant="outline" 
+              className="w-full hover:bg-primary hover:text-primary-foreground"
+            >
+              Learn More
+            </Button>
+          </Link>
         </CardFooter>
       </Card>
     </motion.div>

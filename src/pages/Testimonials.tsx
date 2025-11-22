@@ -14,11 +14,10 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { useToast } from "@/hooks/use-toast";
 
 const testimonialSchema = z.object({
-  name: z.string().min(2, "Name must be at least 2 characters").max(100),
-  vehicle: z.string().max(100).optional(),
-  rating: z.string(),
-  testimonial: z.string().min(10, "Testimonial must be at least 10 characters").max(500),
-  email: z.string().email("Invalid email address"),
+  nameFabrixTestimonial: z.string().min(2, "Name must be at least 2 characters").max(100),
+  ratingFabrixTestimonial: z.string(),
+  testimonialFabrixTestimonial: z.string().min(10, "Testimonial must be at least 10 characters").max(500),
+  emailFabrixTestimonial: z.string().email("Invalid email address"),
 });
 
 type TestimonialFormData = z.infer<typeof testimonialSchema>;
@@ -30,11 +29,10 @@ const Testimonials = () => {
   const form = useForm<TestimonialFormData>({
     resolver: zodResolver(testimonialSchema),
     defaultValues: {
-      name: "",
-      vehicle: "",
-      rating: "5",
-      testimonial: "",
-      email: "",
+      nameFabrixTestimonial: "",
+      ratingFabrixTestimonial: "5",
+      testimonialFabrixTestimonial: "",
+      emailFabrixTestimonial: "",
     },
   });
 
@@ -42,17 +40,45 @@ const Testimonials = () => {
     setIsSubmitting(true);
     
     // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 1500));
-    
-    console.log("Testimonial submitted:", data);
-    
-    toast({
-      title: "Thank you for your feedback!",
-      description: "Your testimonial has been submitted and will be reviewed shortly.",
-    });
-    
-    form.reset();
-    setIsSubmitting(false);
+    try {
+      const webhookUrl = import.meta.env.VITE_MAKE_TESTIMONIAL_WEBHOOK_URL;
+
+      if (!webhookUrl) {
+        console.error("Missing VITE_MAKE_TESTIMONIAL_WEBHOOK_URL env variable");
+        throw new Error("Testimonial webhook URL is not configured.");
+      }
+
+      const response = await fetch(webhookUrl, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+
+      if (!response.ok) {
+        console.error("Testimonial webhook error", response.status, response.statusText);
+        throw new Error("Failed to submit testimonial.");
+      }
+
+      console.log("Testimonial submitted:", data);
+
+      toast({
+        title: "Thank you for your feedback!",
+        description: "Your testimonial has been submitted and will be reviewed shortly.",
+      });
+
+      form.reset();
+    } catch (error) {
+      console.error("Testimonial submission failed:", error);
+      toast({
+        title: "Something went wrong",
+        description: "We couldn't submit your testimonial. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const testimonials = [
@@ -182,20 +208,6 @@ const Testimonials = () => {
                             <FormLabel>Email Address *</FormLabel>
                             <FormControl>
                               <Input type="email" placeholder="john@example.com" {...field} />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-
-                      <FormField
-                        control={form.control}
-                        name="vehicle"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Vehicle (Optional)</FormLabel>
-                            <FormControl>
-                              <Input placeholder="BMW 3 Series" {...field} />
                             </FormControl>
                             <FormMessage />
                           </FormItem>

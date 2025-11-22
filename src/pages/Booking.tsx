@@ -10,18 +10,19 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Calendar } from "@/components/ui/calendar";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { useToast } from "@/hooks/use-toast";
-import { Calendar, Clock, CheckCircle2 } from "lucide-react";
+import { Calendar as CalendarIcon, Clock, CheckCircle2 } from "lucide-react";
 
 const bookingSchema = z.object({
-  fullName: z.string().min(2, "Name must be at least 2 characters").max(100),
-  email: z.string().email("Invalid email address"),
-  phone: z.string().min(10, "Phone number must be at least 10 digits"),
-  vehicleMake: z.string().min(2, "Please enter your vehicle make"),
-  vehicleModel: z.string().min(2, "Please enter your vehicle model"),
-  serviceType: z.string().min(1, "Please select a service type"),
-  preferredDate: z.string().min(1, "Please select a preferred date"),
-  notes: z.string().max(500).optional(),
+  fullNameFabrix: z.string().min(2, "Name must be at least 2 characters").max(100),
+  emailFabrix: z.string().email("Invalid email address"),
+  phoneFabrix: z.string().min(10, "Phone number must be at least 10 digits"),
+  serviceTypeFabrix: z.string().min(1, "Please select a service type"),
+  preferredDateFabrix: z.string().min(1, "Please select a preferred date"),
+  preferredTimeFabrix: z.string().min(1, "Please select a preferred time"),
+  notesFabrix: z.string().max(500).optional(),
 });
 
 type BookingFormData = z.infer<typeof bookingSchema>;
@@ -34,33 +35,59 @@ const Booking = () => {
   const form = useForm<BookingFormData>({
     resolver: zodResolver(bookingSchema),
     defaultValues: {
-      fullName: "",
-      email: "",
-      phone: "",
-      vehicleMake: "",
-      vehicleModel: "",
-      serviceType: "",
-      preferredDate: "",
-      notes: "",
+      fullNameFabrix: "",
+      emailFabrix: "",
+      phoneFabrix: "",
+      serviceTypeFabrix: "",
+      preferredDateFabrix: "",
+      preferredTimeFabrix: "",
+      notesFabrix: "",
     },
   });
 
   const onSubmit = async (data: BookingFormData) => {
     setIsSubmitting(true);
-    
-    // Simulate API call - In production, this would send to backend
-    await new Promise((resolve) => setTimeout(resolve, 2000));
-    
-    console.log("Booking submitted:", data);
-    
-    toast({
-      title: "Booking Request Received!",
-      description: "We'll contact you shortly to confirm your appointment.",
-    });
-    
-    setIsSuccess(true);
-    form.reset();
-    setIsSubmitting(false);
+
+    try {
+      const webhookUrl = import.meta.env.VITE_MAKE_BOOKING_WEBHOOK_URL;
+
+      if (!webhookUrl) {
+        console.error("Missing VITE_MAKE_BOOKING_WEBHOOK_URL env variable");
+        throw new Error("Booking webhook URL is not configured.");
+      }
+
+      const response = await fetch(webhookUrl, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+
+      if (!response.ok) {
+        console.error("Booking webhook error", response.status, response.statusText);
+        throw new Error("Failed to submit booking request.");
+      }
+
+      console.log("Booking submitted:", data);
+
+      toast({
+        title: "Booking Request Received!",
+        description: "We'll contact you shortly to confirm your appointment.",
+      });
+
+      setIsSuccess(true);
+      form.reset();
+    } catch (error) {
+      console.error("Booking submission failed:", error);
+      toast({
+        title: "Something went wrong",
+        description: "We couldn't submit your booking. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const services = [
@@ -72,6 +99,19 @@ const Booking = () => {
     "Custom Interior Project",
     "General Consultation",
   ];
+
+  const timeSlots = [
+    "09:00",
+    "10:00",
+    "11:00",
+    "12:00",
+    "13:00",
+    "14:00",
+    "15:00",
+    "16:00",
+  ];
+
+  const selectedDate = form.watch("preferredDateFabrix");
 
   if (isSuccess) {
     return (
@@ -127,7 +167,7 @@ const Booking = () => {
             <div className="grid md:grid-cols-3 gap-6 mb-12">
               <Card className="bg-background border-border">
                 <CardContent className="pt-6 text-center">
-                  <Calendar className="w-10 h-10 text-primary mx-auto mb-3" />
+                  <CalendarIcon className="w-10 h-10 text-primary mx-auto mb-3" />
                   <h3 className="font-bold mb-2">Flexible Scheduling</h3>
                   <p className="text-sm text-muted-foreground">Mon-Sat, 8:00 AM - 6:00 PM</p>
                 </CardContent>
@@ -161,7 +201,7 @@ const Booking = () => {
                     <div className="grid md:grid-cols-2 gap-6">
                       <FormField
                         control={form.control}
-                        name="fullName"
+                        name="fullNameFabrix"
                         render={({ field }) => (
                           <FormItem>
                             <FormLabel>Full Name *</FormLabel>
@@ -175,7 +215,7 @@ const Booking = () => {
 
                       <FormField
                         control={form.control}
-                        name="phone"
+                        name="phoneFabrix"
                         render={({ field }) => (
                           <FormItem>
                             <FormLabel>Phone Number *</FormLabel>
@@ -190,7 +230,7 @@ const Booking = () => {
 
                     <FormField
                       control={form.control}
-                      name="email"
+                      name="emailFabrix"
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel>Email Address *</FormLabel>
@@ -202,39 +242,9 @@ const Booking = () => {
                       )}
                     />
 
-                    <div className="grid md:grid-cols-2 gap-6">
-                      <FormField
-                        control={form.control}
-                        name="vehicleMake"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Vehicle Make *</FormLabel>
-                            <FormControl>
-                              <Input placeholder="e.g., BMW, Mercedes, VW" {...field} />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-
-                      <FormField
-                        control={form.control}
-                        name="vehicleModel"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Vehicle Model *</FormLabel>
-                            <FormControl>
-                              <Input placeholder="e.g., 3 Series, C-Class, Golf" {...field} />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                    </div>
-
                     <FormField
                       control={form.control}
-                      name="serviceType"
+                      name="serviceTypeFabrix"
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel>Service Type *</FormLabel>
@@ -259,21 +269,96 @@ const Booking = () => {
 
                     <FormField
                       control={form.control}
-                      name="preferredDate"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Preferred Date *</FormLabel>
-                          <FormControl>
-                            <Input type="date" {...field} min={new Date().toISOString().split('T')[0]} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
+                      name="preferredDateFabrix"
+                      render={({ field }) => {
+                        const parsedDate = field.value ? new Date(field.value) : undefined;
+                        const today = new Date();
+                        const startOfToday = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+
+                        return (
+                          <FormItem className="space-y-3">
+                            <FormLabel>Preferred Date &amp; Time</FormLabel>
+                            <div className="rounded-xl border border-border bg-card p-4 space-y-4">
+                              <div>
+                                <Calendar
+                                  mode="single"
+                                  selected={parsedDate}
+                                  onSelect={(date) => {
+                                    if (!date) return;
+                                    const iso = date.toISOString().split("T")[0];
+                                    field.onChange(iso);
+                                  }}
+                                  disabled={(date) => date < startOfToday}
+                                  className="w-full"
+                                />
+                              </div>
+
+                              <FormField
+                                control={form.control}
+                                name="preferredTimeFabrix"
+                                render={({ field: timeField }) => (
+                                  <FormItem className="space-y-2">
+                                    <FormLabel className="text-sm font-medium text-foreground/80">
+                                      Available Time Slots
+                                    </FormLabel>
+                                    <div className="grid grid-cols-3 sm:grid-cols-4 gap-2">
+                                      {timeSlots.map((slot) => (
+                                        <Popover key={slot}>
+                                          <PopoverTrigger asChild>
+                                            <button
+                                              type="button"
+                                              onClick={() => timeField.onChange(slot)}
+                                              className={`text-sm rounded-lg px-3 py-2 border transition-colors ${
+                                                timeField.value === slot
+                                                  ? "bg-primary text-primary-foreground border-primary"
+                                                  : "bg-background text-foreground border-border hover:bg-accent hover:text-accent-foreground"
+                                              }`}
+                                            >
+                                              {slot}
+                                            </button>
+                                          </PopoverTrigger>
+                                          <PopoverContent className="space-y-3">
+                                            <div className="text-sm">
+                                              <div className="font-semibold mb-1">Confirm Selection</div>
+                                              <p className="text-muted-foreground">
+                                                Date:{" "}
+                                                <span className="font-medium">
+                                                  {selectedDate
+                                                    ? new Date(selectedDate).toLocaleDateString()
+                                                    : "Not selected"}
+                                                </span>
+                                              </p>
+                                              <p className="text-muted-foreground">
+                                                Time:{" "}
+                                                <span className="font-medium">{slot}</span>
+                                              </p>
+                                            </div>
+                                            <Button
+                                              type="button"
+                                              variant="cta"
+                                              className="w-full"
+                                              onClick={() => timeField.onChange(slot)}
+                                            >
+                                              Confirm Booking Time
+                                            </Button>
+                                          </PopoverContent>
+                                        </Popover>
+                                      ))}
+                                    </div>
+                                    <FormMessage />
+                                  </FormItem>
+                                )}
+                              />
+                            </div>
+                            <FormMessage />
+                          </FormItem>
+                        );
+                      }}
                     />
 
                     <FormField
                       control={form.control}
-                      name="notes"
+                      name="notesFabrix"
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel>Additional Notes / Comments (Optional)</FormLabel>

@@ -6,11 +6,12 @@ import ServiceCard from "@/components/ServiceCard";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Bed, Car, Square, Armchair, Baby, Wrench } from "lucide-react";
-import upholsteryImage from "@/assets/upholstery-work.jpg";
 import leatherImage from "@/assets/leather-restoration.jpg";
-import roofImage from "@/assets/roof-lining.jpg";
-import soundproofImage from "@/assets/soundproofing.jpg";
-import dashboardImage from "@/assets/dashboard-repair.jpg";
+import dashboardImage from "@/assets/dashboard-repair.png";
+import bedImage from "@/assets/bed-service.jpg";
+import engineImage from "@/assets/engine-image.png";
+import carpetImage from "@/assets/mat-service.png";
+import babyImage from "@/assets/baby-strollers.png";    
 
 interface Service {
   title: string;
@@ -29,7 +30,7 @@ const Services = () => {
       title: "Beds",
       description: "Since its founding, Xtreme Fabrix Solutions has been one of the most trusted names in the industry. Hire us for this service and learn how we cater to the needs, sleep at ease!",
       icon: Bed,
-      image: upholsteryImage,
+      image: bedImage,
       details: "Since its founding, Xtreme Fabrix Solutions has been one of the most trusted names in the industry. Hire us for this service and learn how we cater to the needs, sleep at ease!",
       features: [
         "Professional bed cleaning and restoration",
@@ -57,7 +58,7 @@ const Services = () => {
       title: "Carpet & Rugs",
       description: "Xtreme Fabrix Solutions is committed to getting the job done, especially when it comes to this service. You can count on us to be professional, timely, efficient and make sure you're satisfied every step of the way.",
       icon: Square,
-      image: roofImage,
+      image: carpetImage,
       details: "Xtreme Fabrix Solutions is committed to getting the job done, especially when it comes to this service. You can count on us to be professional, timely, efficient and make sure you're satisfied every step of the way.",
       features: [
         "Deep carpet cleaning and extraction",
@@ -85,7 +86,7 @@ const Services = () => {
       title: "Baby Car Seats & Strollers",
       description: "We have the experience and skills necessary to tackle just about every type of job that comes our way. With Xtreme Fabrix Solutions, clients know exactly what to expect - professionalism, efficiency and exceptional results.",
       icon: Baby,
-      image: soundproofImage,
+      image: babyImage,
       details: "We have the experience and skills necessary to tackle just about every type of job that comes our way. With Xtreme Fabrix Solutions, clients know exactly what to expect - professionalism, efficiency and exceptional results.",
       features: [
         "Safe, child-friendly cleaning products",
@@ -99,8 +100,8 @@ const Services = () => {
       title: "Engine Bay Detailing",
       description: "Xtreme Fabrix Solutions is committed to getting the job done, especially when it comes to this service. You can count on us to be professional, timely, efficient and make sure you're satisfied every step of the way.",
       icon: Wrench,
-      image: dashboardImage,
-      details: "Xtreme Fabrix Solutions is committed to getting the job done, especially when it comes to this service. You can count on us to be professional, timely, efficient and make sure you're satisfied every step of the way.",
+      image: engineImage,
+      details: "Xtreme Fabrix Solutions has been one of the most trusted names in the industry. Hire us for this service and learn how we cater to the needs of each client, ensuring the results you need and deserve.",
       features: [
         "Complete engine bay cleaning",
         "Degreasing and detailing",

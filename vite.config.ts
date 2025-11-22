@@ -15,4 +15,27 @@ export default defineConfig(({ mode }) => ({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          // Vendor chunks
+          'react-vendor': ['react', 'react-dom', 'react-router-dom'],
+          'ui-vendor': [
+            '@radix-ui/react-accordion',
+            '@radix-ui/react-alert-dialog',
+            '@radix-ui/react-dialog',
+            '@radix-ui/react-dropdown-menu',
+            '@radix-ui/react-select',
+            '@radix-ui/react-tabs',
+            '@radix-ui/react-toast',
+          ],
+          'animation-vendor': ['framer-motion'],
+          'carousel-vendor': ['embla-carousel-react'],
+          'form-vendor': ['react-hook-form', '@hookform/resolvers', 'zod'],
+        },
+      },
+    },
+    chunkSizeWarningLimit: 1000, // Increase limit to 1MB for video assets
+  },
 }));

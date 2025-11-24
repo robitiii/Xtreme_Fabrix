@@ -27,6 +27,38 @@ const bookingSchema = z.object({
 
 type BookingFormData = z.infer<typeof bookingSchema>;
 
+const formatDateToISODate = (value: string): string => {
+  if (!value) return value;
+
+  const parsed = new Date(value);
+  if (!Number.isNaN(parsed.getTime())) {
+    const year = parsed.getFullYear();
+    const month = String(parsed.getMonth() + 1).padStart(2, "0");
+    const day = String(parsed.getDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`;
+  }
+
+  const match = value.match(/^(\d{4})-(\d{1,2})-(\d{1,2})/);
+  if (match) {
+    const [, y, m, d] = match;
+    return `${y}-${m.padStart(2, "0")}-${d.padStart(2, "0")}`;
+  }
+
+  return value;
+};
+
+const formatTimeTo24Hour = (value: string): string => {
+  if (!value) return value;
+
+  const match = value.match(/^(\d{1,2}):(\d{1,2})(?::(\d{1,2}))?/);
+  if (!match) return value;
+
+  const hours = String(Math.min(parseInt(match[1], 10), 23)).padStart(2, "0");
+  const minutes = String(Math.min(parseInt(match[2], 10), 59)).padStart(2, "0");
+
+  return `${hours}:${minutes}`;
+};
+
 const Booking = () => {
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -56,12 +88,24 @@ const Booking = () => {
         throw new Error("Booking webhook URL is not configured.");
       }
 
+      const normalizedDate = formatDateToISODate(data.preferredDateFabrix);
+      const normalizedTime = formatTimeTo24Hour(data.preferredTimeFabrix);
+      const combinedDateTime =
+        normalizedDate && normalizedTime ? `${normalizedDate}T${normalizedTime}` : undefined;
+
+      const payload = {
+        ...data,
+        preferredDateFabrix: normalizedDate,
+        preferredTimeFabrix: normalizedTime,
+        preferredDateTimeFabrix: combinedDateTime,
+      };
+
       const response = await fetch(webhookUrl, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(data),
+        body: JSON.stringify(payload),
       });
 
       if (!response.ok) {
@@ -285,8 +329,10 @@ const Booking = () => {
                                   selected={parsedDate}
                                   onSelect={(date) => {
                                     if (!date) return;
-                                    const iso = date.toISOString().split("T")[0];
-                                    field.onChange(iso);
+                                    const isoLocal = `${date.getFullYear()}-${String(
+                                      date.getMonth() + 1
+                                    ).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
+                                    field.onChange(isoLocal);
                                   }}
                                   disabled={(date) => date < startOfToday}
                                   className="w-full"

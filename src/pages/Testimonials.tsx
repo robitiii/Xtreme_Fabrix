@@ -41,10 +41,10 @@ const Testimonials = () => {
     
     // Simulate API call
     try {
-      const webhookUrl = import.meta.env.VITE_MAKE_TESTIMONIAL_WEBHOOK_URL;
+      const webhookUrl = import.meta.env.VITE_MAKE_BOOKING_WEBHOOK_URL;
 
       if (!webhookUrl) {
-        console.error("Missing VITE_MAKE_TESTIMONIAL_WEBHOOK_URL env variable");
+        console.error("Missing VITE_MAKE_BOOKING_WEBHOOK_URL env variable");
         throw new Error("Testimonial webhook URL is not configured.");
       }
 
@@ -188,7 +188,7 @@ const Testimonials = () => {
                     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
                       <FormField
                         control={form.control}
-                        name="name"
+                        name="nameFabrixTestimonial"
                         render={({ field }) => (
                           <FormItem>
                             <FormLabel>Full Name *</FormLabel>
@@ -202,7 +202,7 @@ const Testimonials = () => {
 
                       <FormField
                         control={form.control}
-                        name="email"
+                        name="emailFabrixTestimonial"
                         render={({ field }) => (
                           <FormItem>
                             <FormLabel>Email Address *</FormLabel>
@@ -216,7 +216,7 @@ const Testimonials = () => {
 
                       <FormField
                         control={form.control}
-                        name="rating"
+                        name="ratingFabrixTestimonial"
                         render={({ field }) => (
                           <FormItem>
                             <FormLabel>Rating *</FormLabel>
@@ -241,7 +241,7 @@ const Testimonials = () => {
 
                       <FormField
                         control={form.control}
-                        name="testimonial"
+                        name="testimonialFabrixTestimonial"
                         render={({ field }) => (
                           <FormItem>
                             <FormLabel>Your Testimonial *</FormLabel>

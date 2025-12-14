@@ -5,13 +5,17 @@ import { Link } from "react-router-dom";
 import ServiceCard from "@/components/ServiceCard";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { Bed, Car, Square, Armchair, Baby, Wrench } from "lucide-react";
-import leatherImage from "@/assets/leather-restoration.jpg";
-import dashboardImage from "@/assets/dashboard-repair.png";
+import { Bed, Square, Armchair, Sparkles, Building2 } from "lucide-react";
+import couchImage from "@/assets/couch.png";
 import bedImage from "@/assets/bed-service.jpg";
-import engineImage from "@/assets/engine-image.png";
 import carpetImage from "@/assets/mat-service.png";
-import babyImage from "@/assets/baby-strollers.png";    
+import aboutImage from "@/assets/about_image.png";
+import houseInteriorImage from "@/assets/House_interior.jpg";
+import commercialCleaningImage from "@/assets/comercial_cleaning.jpg";
+import showerCleaningImage from "@/assets/shower_cleaning.jpg";
+import windowCleaningImage from "@/assets/window_cleaning.jpg";
+import furnitureCareImage from "@/assets/furniture-care.jpg";
+import fabricCleaningImage from "@/assets/fabric_cleaning.jpg";
 
 interface Service {
   title: string;
@@ -27,87 +31,143 @@ const Services = () => {
 
   const services: Service[] = [
     {
-      title: "Beds",
-      description: "Since its founding, Xtreme Fabrix Solutions has been one of the most trusted names in the industry. Hire us for this service and learn how we cater to the needs, sleep at ease!",
+      title: "Couches (Cleaning & Care)",
+      description: "Gentle, professional cleaning for fabric and leather couches to refresh and protect your living spaces.",
+      icon: Armchair,
+      image: couchImage,
+      details: "We provide deep cleaning and care for fabric and leather couches, removing dirt, oils, and everyday buildup while protecting the materials and colour of your furniture.",
+      features: [
+        "Deep cleaning for fabric and leather couches",
+        "Targeted stain and spill treatment",
+        "Odor neutralisation and freshness",
+        "Allergen and dust removal",
+        "After-care guidance to keep couches looking new",
+      ],
+    },
+    {
+      title: "Beds (Deep Cleaning & Stain Removal)",
+      description: "Deep mattress and bed cleaning for a healthier, fresher night's sleep.",
       icon: Bed,
       image: bedImage,
-      details: "Since its founding, Xtreme Fabrix Solutions has been one of the most trusted names in the industry. Hire us for this service and learn how we cater to the needs, sleep at ease!",
+      details: "Our bed cleaning service targets sweat, spills, stains, and allergens in your mattress and base, helping to create a cleaner, more hygienic sleeping environment.",
       features: [
-        "Professional bed cleaning and restoration",
-        "Deep cleaning of mattresses and bed frames",
-        "Stain removal and odor treatment",
-        "Fabric protection and care",
-        "Expert attention to detail",
+        "Deep mattress cleaning and sanitising",
+        "Sweat, spill, and body oil stain removal",
+        "Dust-mite and allergen reduction",
+        "Deodorising for long-lasting freshness",
+        "Suitable for all bed sizes and types",
       ],
     },
     {
-      title: "Car Interior",
-      description: "We have the experience and skills necessary to tackle just about every type of job that comes our way. With Xtreme Fabrix Solutions, clients know exactly what to expect - professionalism, efficiency and exceptional results.",
-      icon: Car,
-      image: dashboardImage,
-      details: "We have the experience and skills necessary to tackle just about every type of job that comes our way. With Xtreme Fabrix Solutions, clients know exactly what to expect - professionalism, efficiency and exceptional results.",
-      features: [
-        "Complete interior deep cleaning",
-        "Seat and upholstery restoration",
-        "Dashboard and console cleaning",
-        "Door panel and trim care",
-        "Professional-grade results",
-      ],
-    },
-    {
-      title: "Carpet & Rugs",
-      description: "Xtreme Fabrix Solutions is committed to getting the job done, especially when it comes to this service. You can count on us to be professional, timely, efficient and make sure you're satisfied every step of the way.",
+      title: "Carpets & Rugs (Wash, Steam Clean, Odor Removal)",
+      description: "Professional carpet and rug cleaning, including stain and odor removal.",
       icon: Square,
       image: carpetImage,
-      details: "Xtreme Fabrix Solutions is committed to getting the job done, especially when it comes to this service. You can count on us to be professional, timely, efficient and make sure you're satisfied every step of the way.",
+      details: "We restore carpets and rugs with deep cleaning methods that lift dirt, revive fibres, and tackle stubborn marks and smells in both homes and commercial spaces.",
       features: [
-        "Deep carpet cleaning and extraction",
-        "Rug restoration and care",
-        "Stain removal and treatment",
-        "Odor elimination",
-        "Professional service guarantee",
+        "Hot water extraction / steam cleaning options",
+        "Spot and stain treatment",
+        "Odor and pet smell neutralisation",
+        "Suitable for rugs, runners, and wall-to-wall carpets",
+        "Flexible scheduling for busy households and offices",
       ],
     },
     {
-      title: "Fabric Couches & Leather Care",
-      description: "Since its founding, Xtreme Fabrix Solutions has been one of the most trusted names in the industry. Hire us for this service and learn how we cater to the needs of each client, ensuring the results you need and deserve.",
-      icon: Armchair,
-      image: leatherImage,
-      details: "Since its founding, Xtreme Fabrix Solutions has been one of the most trusted names in the industry. Hire us for this service and learn how we cater to the needs of each client, ensuring the results you need and deserve.",
+      title: "Full House Cleaning (Complete Residential Cleaning)",
+      description: "Top-to-bottom residential cleaning tailored to your home.",
+      icon: Sparkles,
+      image: houseInteriorImage,
+      details: "A comprehensive cleaning service for your entire home, from living areas and bedrooms to kitchens and bathrooms, designed to leave every room feeling fresh and cared for.",
       features: [
-        "Fabric couch deep cleaning",
-        "Leather conditioning and restoration",
-        "Stain and spot treatment",
-        "Color restoration",
-        "Protective treatment application",
+        "Detailed cleaning of all main living areas",
+        "Kitchen and bathroom deep cleaning options",
+        "Floors vacuumed and mopped throughout",
+        "Surfaces dusted and wiped down",
+        "Custom schedules for weekly, bi-weekly, or once-off cleans",
       ],
     },
     {
-      title: "Baby Car Seats & Strollers",
-      description: "We have the experience and skills necessary to tackle just about every type of job that comes our way. With Xtreme Fabrix Solutions, clients know exactly what to expect - professionalism, efficiency and exceptional results.",
-      icon: Baby,
-      image: babyImage,
-      details: "We have the experience and skills necessary to tackle just about every type of job that comes our way. With Xtreme Fabrix Solutions, clients know exactly what to expect - professionalism, efficiency and exceptional results.",
+      title: "Commercial Cleaning (Offices, Retail, Business Spaces)",
+      description: "Professional cleaning for offices, retail, and shared business spaces.",
+      icon: Building2,
+      image: commercialCleaningImage,
+      details: "We support businesses with discreet, reliable cleaning services that keep workplaces presentable, hygienic, and welcoming for staff and clients.",
       features: [
-        "Safe, child-friendly cleaning products",
-        "Deep cleaning of car seats",
-        "Stroller fabric restoration",
-        "Stain and odor removal",
-        "Thorough sanitization",
+        "Office, retail, and shared space cleaning",
+        "After-hours and scheduled cleaning options",
+        "Restrooms and kitchens cleaned and sanitised",
+        "Floors, windows, and high-touch areas maintained",
+        "Tailored solutions for your specific business needs",
       ],
     },
     {
-      title: "Engine Bay Detailing",
-      description: "Xtreme Fabrix Solutions is committed to getting the job done, especially when it comes to this service. You can count on us to be professional, timely, efficient and make sure you're satisfied every step of the way.",
-      icon: Wrench,
-      image: engineImage,
-      details: "Xtreme Fabrix Solutions has been one of the most trusted names in the industry. Hire us for this service and learn how we cater to the needs of each client, ensuring the results you need and deserve.",
+      title: "Window Cleaning (Interior & Exterior)",
+      description: "Crystal-clear windows for homes and commercial properties.",
+      icon: Sparkles,
+      image: windowCleaningImage,
+      details: "Our window cleaning service focuses on streak-free finishes for both interior and exterior glass, improving natural light and overall appearance.",
       features: [
-        "Complete engine bay cleaning",
-        "Degreasing and detailing",
-        "Plastic and rubber restoration",
-        "Protective coating application",
-        "Show-quality finish",
+        "Interior and exterior window cleaning",
+        "Streak-free, polished finish",
+        "Suitable for homes, apartments, and offices",
+        "Frames and sills wiped where accessible",
+        "Flexible booking for regular maintenance cleans",
+      ],
+    },
+    {
+      title: "Headboards (Fabric & Leather Cleaning)",
+      description: "Specialised cleaning for upholstered and leather headboards.",
+      icon: Bed,
+      image: fabricCleaningImage,
+      details: "We gently clean and refresh upholstered and leather headboards, removing marks, dust, and buildup while caring for delicate finishes.",
+      features: [
+        "Fabric and leather headboard cleaning",
+        "Spot and stain treatment",
+        "Dust and allergen removal",
+        "Suitable for fixed and free-standing headboards",
+        "Discreet, in-home service",
+      ],
+    },
+    {
+      title: "Rubber Flooring (Cleaning, Polishing & Maintenance)",
+      description: "Deep cleaning and care for rubber flooring in homes and commercial spaces.",
+      icon: Square,
+      image: carpetImage,
+      details: "Our rubber flooring service cleans, maintains, and helps preserve the look and performance of rubber surfaces in gyms, play areas, and high-traffic spaces.",
+      features: [
+        "Rubber floor washing and sanitising",
+        "Polishing and sheen restoration where appropriate",
+        "Helps maintain slip-resistant properties",
+        "Ideal for gyms, studios, and high-traffic areas",
+        "Tailored maintenance plans available",
+      ],
+    },
+    {
+      title: "Antique Furniture Care (Delicate, Specialized Cleaning)",
+      description: "Careful cleaning for antique and delicate furniture pieces.",
+      icon: Sparkles,
+      image: furnitureCareImage,
+      details: "We treat antique and delicate furniture with extra care, using suitable techniques to clean surfaces while respecting original finishes and character.",
+      features: [
+        "Gentle cleaning methods for delicate pieces",
+        "Attention to joins, trims, and details",
+        "Advice on ongoing care and preservation",
+        "Ideal for heirloom and statement furniture",
+        "Discreet, on-site service where possible",
+      ],
+    },
+    {
+      title: "Shower Cleaning (Deep Lime Scale & Mold Removal)",
+      description: "Targeted shower and bathroom cleaning focusing on lime scale and mold.",
+      icon: Sparkles,
+      image: showerCleaningImage,
+      details: "A focused deep clean for showers and wet areas, targeting built-up soap scum, lime scale, and mold to restore a brighter, fresher bathroom.",
+      features: [
+        "Lime scale and soap scum removal",
+        "Mold and mildew treatment on tiles and grout",
+        "Glass and chrome polishing",
+        "Suitable for residential and commercial bathrooms",
+        "Great as part of a wider deep cleaning service",
       ],
     },
   ];
@@ -115,8 +175,11 @@ const Services = () => {
   return (
     <>
       <Helmet>
-        <title>Our Services | Xtreme Fabrix Solutions</title>
-        <meta name="description" content="Professional automotive upholstery services in Cape Town. Seat reupholstery, leather restoration, roof lining, soundproofing, and custom interiors." />
+        <title>Cleaning & Furniture Care Services | Xtreme Fabrix Solutions</title>
+        <meta
+          name="description"
+          content="Premium home, furniture, and commercial cleaning services in Cape Town. Couches, beds, carpets and rugs, full house and commercial cleaning, windows, headboards, rubber flooring, antique furniture care, and shower deep cleaning."
+        />
       </Helmet>
 
       <div className="pt-20">
@@ -133,7 +196,7 @@ const Services = () => {
                 Our <span className="text-primary">Services</span>
               </h1>
               <p className="text-xl text-muted-foreground">
-                Professional fabric cleaning and restoration services for your home and vehicle
+                Premium home, furniture, and commercial cleaning services tailored to your space.
               </p>
             </motion.div>
           </div>

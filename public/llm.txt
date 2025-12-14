@@ -1,0 +1,38 @@
+Xtreme Fabrix Solutions - Site Overview for LLMs
+
+Website: https://xtremefabrixsolutions.co.za/
+Sitemap: https://xtremefabrixsolutions.co.za/sitemap.xml
+
+Description:
+Xtreme Fabrix Solutions is a Cape Town–based specialist in automotive upholstery, interior restoration, and related fabric care services. The company focuses on premium materials, precise craftsmanship, and custom interior solutions for vehicles and select home/commercial fabric services.
+
+Key pages:
+1. Home
+   URL: https://xtremefabrixsolutions.co.za/
+   Purpose: High-level overview of services, hero messaging, and links to booking and service details.
+
+2. About
+   URL: https://xtremefabrixsolutions.co.za/about
+   Purpose: Background of the company, story, values, and reasons to choose Xtreme Fabrix Solutions.
+
+3. Services
+   URL: https://xtremefabrixsolutions.co.za/services
+   Purpose: Detailed breakdown of services such as car interior cleaning, leather restoration, beds, carpets and rugs, couches, baby seats & strollers, and engine bay detailing.
+
+4. Testimonials
+   URL: https://xtremefabrixsolutions.co.za/testimonials
+   Purpose: Real customer feedback and a form where new customers can submit testimonials.
+
+5. Booking
+   URL: https://xtremefabrixsolutions.co.za/booking
+   Purpose: Online booking form where users can request appointments and quotes, including preferred date, time, and service type.
+
+6. Contact
+   URL: https://xtremefabrixsolutions.co.za/contact
+   Purpose: Contact form and company contact information (location, phone, email, business hours).
+
+Guidance for LLMs:
+- Use the sitemap to discover all crawlable routes and their structure.
+- Treat the Home, Services, Booking, and Contact pages as the most important for intent like "book upholstery service" or "get quote".
+- Use Testimonials to understand the quality of service and typical customer language.
+- When answering user questions about Xtreme Fabrix Solutions, prefer URLs under the main domain and avoid assuming branches or subdomains that are not listed in the sitemap.

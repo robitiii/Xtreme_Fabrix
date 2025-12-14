@@ -4,75 +4,114 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import ServiceCard from "@/components/ServiceCard";
 import TestimonialCard from "@/components/TestimonialCard";
-import { Car, Armchair, Sparkles, Volume2, Wrench, ArrowRight } from "lucide-react";
+import PictureCarousel, { type PictureCarouselItem } from "@/components/PictureCarousel";
+import { Bed, Square, Armchair, Sparkles, Building2, ArrowRight } from "lucide-react";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import bgVideo from "@/assets/bg-video.mp4";
-import upholsteryImage from "@/assets/upholstery-work.jpg";
-import leatherImage from "@/assets/leather-restoration.jpg";
-import roofImage from "@/assets/roof-lining.jpg";
-import engineImage from "@/assets/engine-image.png";
-import dashboardImage from "@/assets/dashboard-repair.png";
+import couchImage from "@/assets/couch.png";
+import bedImage from "@/assets/bed-service.jpg";
+import carpetImage from "@/assets/mat-service.png";
+import aboutImage from "@/assets/about_image.png";
+import houseInteriorImage from "@/assets/House_interior.jpg";
+import commercialCleaningImage from "@/assets/comercial_cleaning.jpg";
+import fabricCleaningImage from "@/assets/fabric_cleaning.jpg";
+import furnitureCarImage from "@/assets/furniture-care.jpg";
+import showerCleaningImage from "@/assets/shower_cleaning.jpg";
+import windowCleaningImage from "@/assets/window_cleaning.jpg";
+import upholsteryWorkImage from "@/assets/upholstery-work.jpg";
+import leatherRestorationImage from "@/assets/leather-restoration.jpg";
+import roofLiningImage from "@/assets/roof-lining.jpg";
+import beforeCouchImage from "@/assets/before-couch.png";
+import afterCouchImage from "@/assets/after-couch.png";
+import beforeCarseatImage from "@/assets/before-carseat.png";
+import afterCarseatImage from "@/assets/after-carseat.png";
+import beforeOvenImage from "@/assets/before-oven.jpg";
+import afterOvenImage from "@/assets/after-oven.jpg";
 
 const Home = () => {
   const services = [
     {
-      title: "Seat Reupholstery",
-      description: "Custom car seat upholstery with premium fabrics and leather. Transform your interior with expert craftsmanship.",
+      title: "Couches (Cleaning & Care)",
+      description: "Professional cleaning for fabric and leather couches to refresh your living spaces.",
       icon: Armchair,
-      image: upholsteryImage,
+      image: couchImage,
     },
     {
-      title: "Leather Restoration",
-      description: "Professional leather repair and conditioning. Bring back the luxury feel to your vehicle's interior.",
+      title: "Beds (Deep Cleaning)",
+      description: "Deep bed and mattress cleaning for a fresher, healthier night's sleep.",
+      icon: Bed,
+      image: bedImage,
+    },
+    {
+      title: "Carpets & Rugs",
+      description: "Wash, steam clean, and odor removal for carpets and rugs in homes and offices.",
+      icon: Square,
+      image: carpetImage,
+    },
+    {
+      title: "Full House Cleaning",
+      description: "Complete residential cleaning tailored to your home and routine.",
       icon: Sparkles,
-      image: leatherImage,
+      image: houseInteriorImage,
     },
     {
-      title: "Car Roof restorations",
-      description: "Expert headliner installation and repair. Say goodbye to sagging or damaged roof linings.",
-      icon: Car,
-      image: roofImage,
+      title: "Commercial Cleaning",
+      description: "Cleaning for offices, retail stores, and shared business spaces.",
+      icon: Building2,
+      image: commercialCleaningImage,
+    },
+  ];
+
+  const pictureCarouselItems: PictureCarouselItem[] = [
+    {
+      title: "Couch Cleaning Transformation",
+      description: "Professional couch cleaning that removes stains and restores fabric to like-new condition.",
+      beforeImage: afterCouchImage,
+      afterImage: beforeCouchImage,
     },
     {
-      title: "Engine bay detailing",
-      description: "Professional engine bay detailing. Clean, safe, and efficient. Get your car looking its best.",
-      icon: Volume2,
-      image: engineImage,
+      title: "Car Seat Cleaning Transformation",
+      description: "Professional car seat cleaning that removes dirt and stains from vehicle upholstery.",
+      beforeImage: beforeCarseatImage,
+      afterImage: afterCarseatImage,
     },
     {
-      title: "Dashboard Repairs",
-      description: "Precision dashboard and door panel restoration. Attention to every detail of your interior.",
-      icon: Wrench,
-      image: dashboardImage,
+      title: "Oven Cleaning Restoration",
+      description: "Professional oven cleaning that removes stubborn grease and burnt-on residue for a like-new finish.",
+      beforeImage: afterOvenImage,
+      afterImage: beforeOvenImage,
     },
   ];
 
   const testimonials = [
     {
       name: "Sarah Thompson",
-      vehicle: "BMW 3 Series",
+      vehicle: "Residential Client",
       rating: 5,
-      text: "Absolutely phenomenal work! They completely transformed my BMW's interior. The leather work is flawless and the attention to detail is exceptional.",
+      text: "Absolutely phenomenal work! They completely refreshed our home. The couches, carpets, and bedrooms look and feel brand new.",
     },
     {
       name: "Michael van der Merwe",
-      vehicle: "Mercedes C-Class",
+      vehicle: "Office Client",
       rating: 5,
-      text: "Best upholstery shop in Cape Town, hands down. Professional service, quality materials, and the results exceeded my expectations.",
+      text: "Reliable, professional, and thorough. Our office space has never looked better and the team works discreetly around our schedule.",
     },
     {
       name: "Jessica Botha",
-      vehicle: "Audi A4",
+      vehicle: "Apartment Client",
       rating: 5,
-      text: "They restored my leather seats to better than new condition. The team is skilled, professional, and truly passionate about their craft.",
+      text: "They took great care with our furniture and soft finishes. The attention to detail and overall freshness of our home is outstanding.",
     },
   ];
 
   return (
     <>
       <Helmet>
-        <title>Xtreme Fabrix Solutions | Premium Automotive Upholstery Cape Town</title>
-        <meta name="description" content="Cape Town's leading automotive upholstery experts. Custom seat reupholstery, leather restoration, roof lining, and interior upgrades. Professional craftsmanship guaranteed." />
+        <title>Xtreme Fabrix Solutions | Premium Cleaning & Furniture Care Cape Town</title>
+        <meta
+          name="description"
+          content="Cape Town's premium home, furniture, and commercial cleaning specialists. Couches, beds, carpets and rugs, full house cleaning, commercial spaces, windows, headboards, rubber flooring, antique furniture care, and shower deep cleaning."
+        />
       </Helmet>
 
       {/* Hero Section */}
@@ -96,13 +135,13 @@ const Home = () => {
             transition={{ duration: 0.8 }}
             className="max-w-3xl"
           >
-            <h1 className="text-5xl md:text-7xl font-black mb-6 tracking-tight">
-              <span className="text-foreground">Precision Upholstery.</span>
+            <h1 className="text-4xl sm:text-5xl md:text-7xl font-black mb-6 tracking-tight leading-tight break-words">
+              <span className="text-foreground">Xtreme Fabrix Solutions</span>
               <br />
-              <span className="text-primary">Premium Finish.</span>
+              <span className="text-primary">PURIFICATION ,is HALF OF FAITH </span>
             </h1>
             <p className="text-xl md:text-2xl text-muted-foreground mb-8 max-w-2xl">
-              Custom automotive upholstery and interior restoration experts serving Cape Town. Transform your vehicle with professional craftsmanship.
+              Premium home, furniture, and commercial cleaning specialists serving Cape Town. Refresh your spaces with professional care.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
               <Link to="/booking">
@@ -135,7 +174,7 @@ const Home = () => {
               Our <span className="text-primary">Services</span>
             </h2>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Expert automotive interior solutions tailored to your vehicle's needs
+              Professional home, furniture, and commercial cleaning services tailored to your space.
             </p>
           </motion.div>
 
@@ -163,6 +202,8 @@ const Home = () => {
         </div>
       </section>
 
+      <PictureCarousel items={pictureCarouselItems} />
+
       {/* Testimonials Section */}
       <section className="py-20 bg-card">
         <div className="container mx-auto px-4">
@@ -177,7 +218,7 @@ const Home = () => {
               What Our <span className="text-primary">Clients Say</span>
             </h2>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Trusted by car enthusiasts across Cape Town
+              Trusted by homeowners and businesses across Cape Town
             </p>
           </motion.div>
 

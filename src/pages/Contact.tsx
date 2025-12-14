@@ -96,7 +96,10 @@ const Contact = () => {
     <>
       <Helmet>
         <title>Contact Us | Xtreme Fabrix Solutions</title>
-        <meta name="description" content="Get in touch with Xtreme Fabrix Solutions in Cape Town. Phone, email, location, and contact form for all inquiries." />
+        <meta
+          name="description"
+          content="Get in touch with Xtreme Fabrix Solutions, Cape Town's premium home, furniture, and commercial cleaning specialists. Phone, email, location, and contact form for all cleaning service inquiries."
+        />
       </Helmet>
 
       <div className="pt-20">
@@ -198,8 +201,8 @@ const Contact = () => {
                         </div>
                         <div>
                           <h3 className="font-bold mb-1">Working Hours</h3>
-                          <p className="text-muted-foreground">Monday - Saturday</p>
-                          <p className="text-muted-foreground">8:00 AM - 6:00 PM</p>
+                          <p className="text-muted-foreground">Monday - Sunday</p>
+                          <p className="text-muted-foreground">Times vary by appointment</p>
                         </div>
                       </div>
                     </CardContent>

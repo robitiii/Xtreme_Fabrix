@@ -10,8 +10,6 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Calendar } from "@/components/ui/calendar";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { useToast } from "@/hooks/use-toast";
 import { Calendar as CalendarIcon, Clock, CheckCircle2 } from "lucide-react";
 
@@ -20,44 +18,10 @@ const bookingSchema = z.object({
   emailFabrix: z.string().email("Invalid email address"),
   phoneFabrix: z.string().min(10, "Phone number must be at least 10 digits"),
   serviceTypeFabrix: z.string().min(1, "Please select a service type"),
-  preferredDateFabrix: z.string().min(1, "Please select a preferred date"),
-  preferredTimeFabrix: z.string().min(1, "Please select a preferred time"),
   notesFabrix: z.string().max(500).optional(),
 });
 
 type BookingFormData = z.infer<typeof bookingSchema>;
-
-const formatDateToISODate = (value: string): string => {
-  if (!value) return value;
-
-  const parsed = new Date(value);
-  if (!Number.isNaN(parsed.getTime())) {
-    const year = parsed.getFullYear();
-    const month = String(parsed.getMonth() + 1).padStart(2, "0");
-    const day = String(parsed.getDate()).padStart(2, "0");
-    return `${year}-${month}-${day}`;
-  }
-
-  const match = value.match(/^(\d{4})-(\d{1,2})-(\d{1,2})/);
-  if (match) {
-    const [, y, m, d] = match;
-    return `${y}-${m.padStart(2, "0")}-${d.padStart(2, "0")}`;
-  }
-
-  return value;
-};
-
-const formatTimeTo24Hour = (value: string): string => {
-  if (!value) return value;
-
-  const match = value.match(/^(\d{1,2}):(\d{1,2})(?::(\d{1,2}))?/);
-  if (!match) return value;
-
-  const hours = String(Math.min(parseInt(match[1], 10), 23)).padStart(2, "0");
-  const minutes = String(Math.min(parseInt(match[2], 10), 59)).padStart(2, "0");
-
-  return `${hours}:${minutes}`;
-};
 
 const Booking = () => {
   const { toast } = useToast();
@@ -71,8 +35,6 @@ const Booking = () => {
       emailFabrix: "",
       phoneFabrix: "",
       serviceTypeFabrix: "",
-      preferredDateFabrix: "",
-      preferredTimeFabrix: "",
       notesFabrix: "",
     },
   });
@@ -88,16 +50,8 @@ const Booking = () => {
         throw new Error("Booking webhook URL is not configured.");
       }
 
-      const normalizedDate = formatDateToISODate(data.preferredDateFabrix);
-      const normalizedTime = formatTimeTo24Hour(data.preferredTimeFabrix);
-      const combinedDateTime =
-        normalizedDate && normalizedTime ? `${normalizedDate}T${normalizedTime}` : undefined;
-
       const payload = {
         ...data,
-        preferredDateFabrix: normalizedDate,
-        preferredTimeFabrix: normalizedTime,
-        preferredDateTimeFabrix: combinedDateTime,
       };
 
       const response = await fetch(webhookUrl, {
@@ -135,27 +89,18 @@ const Booking = () => {
   };
 
   const services = [
-    "Car Seat Reupholstery",
-    "Leather Repair & Restoration",
-    "Roof Lining Replacement",
-    "Soundproofing & Interior Upgrades",
-    "Dashboard & Door Panel Repairs",
-    "Custom Interior Project",
-    "General Consultation",
+    "Couches (Cleaning & Care)",
+    "Beds (Deep Cleaning & Stain Removal)",
+    "Carpets & Rugs (Wash, Steam Clean, Odor Removal)",
+    "Full House Cleaning (Complete Residential Cleaning)",
+    "Commercial Cleaning (Offices, Retail, Business Spaces)",
+    "Window Cleaning (Interior & Exterior)",
+    "Headboards (Fabric & Leather Cleaning)",
+    "Rubber Flooring (Cleaning, Polishing & Maintenance)",
+    "Antique Furniture Care (Delicate, Specialized Cleaning)",
+    "Shower Cleaning (Deep Lime Scale & Mold Removal)",
+    "Custom / Other Service",
   ];
-
-  const timeSlots = [
-    "09:00",
-    "10:00",
-    "11:00",
-    "12:00",
-    "13:00",
-    "14:00",
-    "15:00",
-    "16:00",
-  ];
-
-  const selectedDate = form.watch("preferredDateFabrix");
 
   if (isSuccess) {
     return (
@@ -188,7 +133,10 @@ const Booking = () => {
     <>
       <Helmet>
         <title>Book Appointment | Xtreme Fabrix Solutions</title>
-        <meta name="description" content="Book your automotive upholstery appointment online. Request a free quote for seat reupholstery, leather restoration, or custom interior work." />
+        <meta
+          name="description"
+          content="Book your professional cleaning appointment online. Request a free quote for couches, beds, carpets &amp; rugs, full house and commercial cleaning services."
+        />
       </Helmet>
 
       <div className="pt-20 min-h-screen bg-gradient-to-br from-background via-card to-background">
@@ -213,7 +161,7 @@ const Booking = () => {
                 <CardContent className="pt-6 text-center">
                   <CalendarIcon className="w-10 h-10 text-primary mx-auto mb-3" />
                   <h3 className="font-bold mb-2">Flexible Scheduling</h3>
-                  <p className="text-sm text-muted-foreground">Mon-Sat, 8:00 AM - 6:00 PM</p>
+                  <p className="text-sm text-muted-foreground">Monday - Sunday, times vary by appointment</p>
                 </CardContent>
               </Card>
               <Card className="bg-background border-border">
@@ -309,97 +257,6 @@ const Booking = () => {
                           <FormMessage />
                         </FormItem>
                       )}
-                    />
-
-                    <FormField
-                      control={form.control}
-                      name="preferredDateFabrix"
-                      render={({ field }) => {
-                        const parsedDate = field.value ? new Date(field.value) : undefined;
-                        const today = new Date();
-                        const startOfToday = new Date(today.getFullYear(), today.getMonth(), today.getDate());
-
-                        return (
-                          <FormItem className="space-y-3">
-                            <FormLabel>Preferred Date &amp; Time</FormLabel>
-                            <div className="rounded-xl border border-border bg-card p-4 space-y-4">
-                              <div>
-                                <Calendar
-                                  mode="single"
-                                  selected={parsedDate}
-                                  onSelect={(date) => {
-                                    if (!date) return;
-                                    const isoLocal = `${date.getFullYear()}-${String(
-                                      date.getMonth() + 1
-                                    ).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
-                                    field.onChange(isoLocal);
-                                  }}
-                                  disabled={(date) => date < startOfToday}
-                                  className="w-full"
-                                />
-                              </div>
-
-                              <FormField
-                                control={form.control}
-                                name="preferredTimeFabrix"
-                                render={({ field: timeField }) => (
-                                  <FormItem className="space-y-2">
-                                    <FormLabel className="text-sm font-medium text-foreground/80">
-                                      Available Time Slots
-                                    </FormLabel>
-                                    <div className="grid grid-cols-3 sm:grid-cols-4 gap-2">
-                                      {timeSlots.map((slot) => (
-                                        <Popover key={slot}>
-                                          <PopoverTrigger asChild>
-                                            <button
-                                              type="button"
-                                              onClick={() => timeField.onChange(slot)}
-                                              className={`text-sm rounded-lg px-3 py-2 border transition-colors ${
-                                                timeField.value === slot
-                                                  ? "bg-primary text-primary-foreground border-primary"
-                                                  : "bg-background text-foreground border-border hover:bg-accent hover:text-accent-foreground"
-                                              }`}
-                                            >
-                                              {slot}
-                                            </button>
-                                          </PopoverTrigger>
-                                          <PopoverContent className="space-y-3">
-                                            <div className="text-sm">
-                                              <div className="font-semibold mb-1">Confirm Selection</div>
-                                              <p className="text-muted-foreground">
-                                                Date:{" "}
-                                                <span className="font-medium">
-                                                  {selectedDate
-                                                    ? new Date(selectedDate).toLocaleDateString()
-                                                    : "Not selected"}
-                                                </span>
-                                              </p>
-                                              <p className="text-muted-foreground">
-                                                Time:{" "}
-                                                <span className="font-medium">{slot}</span>
-                                              </p>
-                                            </div>
-                                            <Button
-                                              type="button"
-                                              variant="cta"
-                                              className="w-full"
-                                              onClick={() => timeField.onChange(slot)}
-                                            >
-                                              Confirm Booking Time
-                                            </Button>
-                                          </PopoverContent>
-                                        </Popover>
-                                      ))}
-                                    </div>
-                                    <FormMessage />
-                                  </FormItem>
-                                )}
-                              />
-                            </div>
-                            <FormMessage />
-                          </FormItem>
-                        );
-                      }}
                     />
 
                     <FormField

@@ -40,7 +40,10 @@
 //     <>
 //       <Helmet>
 //         <title>Gallery | Xtreme Fabrix Solutions</title>
-//         <meta name="description" content="View our portfolio of automotive upholstery projects. Before and after transformations, custom interiors, and restoration work." />
+//         <meta
+//           name="description"
+//           content="View our portfolio of professional cleaning projects across homes, furniture, and commercial spaces. Before and after transformations and detailed cleaning work."
+//         />
 //       </Helmet>
 
 //       <div className="pt-20">

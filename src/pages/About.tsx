@@ -32,7 +32,10 @@ const About = () => {
     <>
       <Helmet>
         <title>About Us | Xtreme Fabrix Solutions</title>
-        <meta name="description" content="Learn about Xtreme Fabrix Solutions, Cape Town's premier automotive upholstery specialists. Our story, values, and commitment to excellence." />
+        <meta
+          name="description"
+          content="Learn about Xtreme Fabrix Solutions, Cape Town's premium home, furniture, and commercial cleaning specialists. Our story, values, and commitment to spotless spaces."
+        />
       </Helmet>
 
       <div className="pt-20">

@@ -10,10 +10,10 @@ const Footer = () => {
           <div className="space-y-4">
             <div className="text-2xl font-black tracking-tight">
               <span className="text-foreground">XTREME</span>
-              <span className="text-primary ml-1">FABRIX</span>
+              <span className="text-primary ml-1">FABRIX Solutions</span>
             </div>
             <p className="text-sm text-muted-foreground">
-              Premium automotive upholstery and interior restoration experts in Cape Town.
+              Premium home, furniture, and commercial cleaning specialists in Cape Town.
             </p>
             <div className="flex space-x-4">
               <a href="#" className="text-muted-foreground hover:text-primary transition-colors">
@@ -56,11 +56,11 @@ const Footer = () => {
           <div>
             <h3 className="font-bold text-foreground mb-4">Services</h3>
             <ul className="space-y-2">
-              <li className="text-sm text-muted-foreground">Seat Reupholstery</li>
-              <li className="text-sm text-muted-foreground">Leather Restoration</li>
-              <li className="text-sm text-muted-foreground">Roof Lining</li>
-              <li className="text-sm text-muted-foreground">Soundproofing</li>
-              <li className="text-sm text-muted-foreground">Dashboard Repairs</li>
+              <li className="text-sm text-muted-foreground">Couches (Cleaning &amp; Care)</li>
+              <li className="text-sm text-muted-foreground">Beds (Deep Cleaning &amp; Stain Removal)</li>
+              <li className="text-sm text-muted-foreground">Carpets &amp; Rugs (Wash, Steam Clean, Odor Removal)</li>
+              <li className="text-sm text-muted-foreground">Full House Cleaning</li>
+              <li className="text-sm text-muted-foreground">Commercial Cleaning</li>
             </ul>
           </div>
 
@@ -86,7 +86,7 @@ const Footer = () => {
               </li>
               <li className="flex items-start space-x-2 text-sm text-muted-foreground">
                 <Clock className="w-4 h-4 mt-0.5 flex-shrink-0" />
-                <span>Mon-Sat: 8:00 AM - 6:00 PM</span>
+                <span>Monday - Sunday, times vary by appointment</span>
               </li>
             </ul>
           </div>
@@ -101,9 +101,14 @@ const Footer = () => {
               rel="noopener noreferrer"
               className="font-semibold hover:text-blue-400 transition-colors"
             >
-              RobQTech
+              RobQTech Web Designs
             </a>
             .
+          </p>
+          <p className="mt-2 text-xs text-muted-foreground">
+            Use of this website is subject to Xtreme Fabrix Solutions' standard Terms &amp; Conditions and Privacy
+            Policy. Personal information is processed in accordance with South Africa's Protection of Personal
+            Information Act (POPIA).
           </p>
         </div>
       </div>

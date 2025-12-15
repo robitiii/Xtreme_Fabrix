@@ -136,9 +136,30 @@ const Home = () => {
             className="max-w-3xl"
           >
             <h1 className="text-4xl sm:text-5xl md:text-7xl font-black mb-6 tracking-tight leading-tight break-words">
-              <span className="text-foreground">Xtreme Fabrix Solutions</span>
+              <span className="text-foreground">
+  <span
+    className="relative inline-block font-semibold tracking-wide
+               before:absolute before:left-0 before:right-0 before:top-0
+               before:h-[4px] before:bg-yellow-400 before:translate-y-[1px]
+               after:absolute after:left-0 after:right-0 after:bottom-0
+               after:h-[4px] after:bg-yellow-400 after:-translate-y-[1px]"
+  >
+    <span className="text-primary">X</span>treme Fabri
+    <span className="text-primary">X</span>
+  </span>
+
+  <span className="ml-2 font-extralight text-yellow-300 text-[0.92em]">
+    Solutions
+  </span>
+</span>
+
+
+
+
+
+
               <br />
-              <span className="text-primary">PURIFICATION ,is HALF OF FAITH </span>
+              <span className="text-foreground">PURIFICATION <span className="text-foreground">IS HALF OF FAITH</span> </span>
             </h1>
             <p className="text-xl md:text-2xl text-muted-foreground mb-8 max-w-2xl">
               Premium home, furniture, and commercial cleaning specialists serving Cape Town. Refresh your spaces with professional care.

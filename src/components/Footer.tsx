@@ -8,10 +8,25 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {/* Company Info */}
           <div className="space-y-4">
-            <div className="text-2xl font-black tracking-tight">
-              <span className="text-foreground">XTREME</span>
-              <span className="text-primary ml-1">FABRIX Solutions</span>
-            </div>
+            <span className="text-foreground">
+  <span
+    className="relative inline-block font-semibold tracking-wide
+               before:absolute before:left-0 before:right-0 before:top-0
+               before:h-[2.5px] before:bg-yellow-400 before:translate-y-[2px]
+               after:absolute after:left-0 after:right-0 after:bottom-0
+               after:h-[2.5px] after:bg-yellow-400 after:-translate-y-[2px]"
+  >
+    <span className="text-primary">X</span>treme Fabri
+    <span className="text-primary">X</span>
+  </span>
+
+  <span className="ml-2 font-extralight text-yellow-300 text-[0.92em]">
+    Solutions
+  </span>
+</span>
+
+
+
             <p className="text-sm text-muted-foreground">
               Premium home, furniture, and commercial cleaning specialists in Cape Town.
             </p>

@@ -49,16 +49,9 @@ const Booking = () => {
         throw new Error("Booking Apps Script URL is not configured.");
       }
 
-      const payload = {
-        ...data,
-      };
-
       const response = await fetch(webhookUrl, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(payload),
+        body: new URLSearchParams(data),
       });
 
       if (!response.ok) {
@@ -69,8 +62,8 @@ const Booking = () => {
       console.log("Booking submitted:", data);
 
       toast({
-        title: "Booking Request Received!",
-        description: "We'll contact you shortly to confirm your appointment.",
+        title: "Xtreme Fabrix received your request",
+        description: "Our team will review your details and contact you shortly to confirm your appointment.",
       });
 
       setIsSuccess(true);

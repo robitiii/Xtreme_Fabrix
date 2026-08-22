@@ -18,21 +18,28 @@ export default defineConfig(({ mode }) => ({
   build: {
     rollupOptions: {
       output: {
-        manualChunks: {
-          // Vendor chunks
-          'react-vendor': ['react', 'react-dom', 'react-router-dom'],
-          'ui-vendor': [
-            '@radix-ui/react-accordion',
-            '@radix-ui/react-alert-dialog',
-            '@radix-ui/react-dialog',
-            '@radix-ui/react-dropdown-menu',
-            '@radix-ui/react-select',
-            '@radix-ui/react-tabs',
-            '@radix-ui/react-toast',
-          ],
-          'animation-vendor': ['framer-motion'],
-          'carousel-vendor': ['embla-carousel-react'],
-          'form-vendor': ['react-hook-form', '@hookform/resolvers', 'zod'],
+        manualChunks(id) {
+          const vendorGroups = {
+            'react-vendor': ['react', 'react-dom', 'react-router-dom'],
+            'ui-vendor': [
+              '@radix-ui/react-accordion',
+              '@radix-ui/react-alert-dialog',
+              '@radix-ui/react-dialog',
+              '@radix-ui/react-dropdown-menu',
+              '@radix-ui/react-select',
+              '@radix-ui/react-tabs',
+              '@radix-ui/react-toast',
+            ],
+            'animation-vendor': ['framer-motion'],
+            'carousel-vendor': ['embla-carousel-react'],
+            'form-vendor': ['react-hook-form', '@hookform/resolvers', 'zod'],
+          };
+
+          for (const [chunkName, packages] of Object.entries(vendorGroups)) {
+            if (packages.some((packageName) => id.includes(`/node_modules/${packageName}/`))) {
+              return chunkName;
+            }
+          }
         },
       },
     },

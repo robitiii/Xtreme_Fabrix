@@ -1,0 +1,5 @@
+# Exclude video files from Workers deployment
+# Videos are served from Cloudflare R2 CDN instead
+**/*.mp4
+**/*.webm
+**/video/*

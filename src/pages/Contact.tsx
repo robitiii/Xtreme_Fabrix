@@ -1,6 +1,6 @@
 import { Helmet } from "react-helmet-async";
 import { motion } from "framer-motion";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -25,7 +25,6 @@ type ContactFormData = z.infer<typeof contactSchema>;
 
 const Contact = () => {
   const { toast } = useToast();
-  const [isSubmitting, setIsSubmitting] = useState(false);
   const location = useLocation();
 
   useEffect(() => {
@@ -49,47 +48,18 @@ const Contact = () => {
   });
 
   const onSubmit = async (data: ContactFormData) => {
-    setIsSubmitting(true);
+    const message = [
+      "Hello! I have a question for Xtreme Fabrix Solutions.",
+      `Name: ${data.nameFabrixContact}`,
+      `Email: ${data.emailFabrixContact}`,
+      `Phone: ${data.phoneFabrixContact}`,
+      `Subject: ${data.subjectFabrixContact}`,
+      `Message: ${data.messageFabrixContact}`,
+    ].join("\n");
 
-    try {
-      const webhookUrl = import.meta.env.VITE_MAKE_BOOKING_WEBHOOK_URL;
-
-      if (!webhookUrl) {
-        console.error("Missing VITE_MAKE_BOOKING_WEBHOOK_URL env variable");
-        throw new Error("Contact webhook URL is not configured.");
-      }
-
-      const response = await fetch(webhookUrl, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
-
-      if (!response.ok) {
-        console.error("Contact webhook error", response.status, response.statusText);
-        throw new Error("Failed to submit contact form.");
-      }
-
-      console.log("Contact form submitted:", data);
-
-      toast({
-        title: "Message Sent!",
-        description: "We'll get back to you as soon as possible.",
-      });
-
-      form.reset();
-    } catch (error) {
-      console.error("Contact submission failed:", error);
-      toast({
-        title: "Something went wrong",
-        description: "We couldn't send your message. Please try again.",
-        variant: "destructive",
-      });
-    } finally {
-      setIsSubmitting(false);
-    }
+    window.open(`https://wa.me/27720366449?text=${encodeURIComponent(message)}`, "_blank", "noopener,noreferrer");
+    toast({ title: "WhatsApp is ready", description: "Complete the message in WhatsApp to contact us." });
+    form.reset();
   };
 
   return (
@@ -296,8 +266,8 @@ const Contact = () => {
                           )}
                         />
 
-                        <Button type="submit" className="w-full" variant="cta" disabled={isSubmitting}>
-                          {isSubmitting ? "Sending..." : "Send Message"}
+                        <Button type="submit" className="w-full" variant="cta">
+                          Continue on WhatsApp
                         </Button>
                       </form>
                     </Form>

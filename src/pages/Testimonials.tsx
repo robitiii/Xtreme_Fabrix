@@ -1,47 +1,25 @@
 import { Helmet } from "react-helmet-async";
 import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
 import TestimonialCard from "@/components/TestimonialCard";
+import { fetchReviews, type Review } from "@/lib/reviews";
 
 const Testimonials = () => {
+  const [testimonials, setTestimonials] = useState<Review[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
-  const testimonials = [
-    {
-      name: "Sarah Thompson",
-      vehicle: "Residential Cleaning Client",
-      rating: 5,
-      text: "Our couches, carpets, and mattresses look and feel brand new. Xtreme Fabrix took great care in every room and the whole house smells fresh again.",
-    },
-    {
-      name: "Michael van der Merwe",
-      vehicle: "Office & Commercial Client",
-      rating: 5,
-      text: "They handle our office cleaning and carpet care on a regular schedule. Professional, reliable, and the workspace always looks presentable for clients.",
-    },
-    {
-      name: "Jessica Botha",
-      vehicle: "Apartment Deep Clean",
-      rating: 5,
-      text: "I booked a full apartment deep clean including couches, beds, and windows. The team was friendly, efficient, and left everything spotless.",
-    },
-    {
-      name: "David Naidoo",
-      vehicle: "Carpets & Rugs Service",
-      rating: 5,
-      text: "Our lounge rugs and high-traffic carpets were badly stained. After their steam clean and odor treatment, the colours popped again and the smells were gone.",
-    },
-    {
-      name: "Amanda Daniels",
-      vehicle: "Full House & Window Cleaning",
-      rating: 5,
-      text: "From bedrooms to bathrooms and windows, they did an incredible job. You can see and feel the difference when you walk through the house.",
-    },
-    {
-      name: "Johan Pretorius",
-      vehicle: "Shower & Bathroom Deep Clean",
-      rating: 5,
-      text: "Years of lime scale and mold in our showers were completely removed. Tiles, glass, and fixtures now look bright again. Highly recommended for deep cleaning.",
-    },
-  ];
+  useEffect(() => {
+    const reviewsUrl = import.meta.env.VITE_GOOGLE_REVIEWS_CSV_URL;
+    if (!reviewsUrl) {
+      setIsLoading(false);
+      return;
+    }
+
+    fetchReviews(reviewsUrl)
+      .then(setTestimonials)
+      .catch(() => setTestimonials([]))
+      .finally(() => setIsLoading(false));
+  }, []);
 
   return (
     <>
@@ -77,6 +55,10 @@ const Testimonials = () => {
         <section className="py-20 bg-background">
           <div className="container mx-auto px-4">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
+              {isLoading ? <p className="col-span-full text-center text-muted-foreground">Loading reviews...</p> : null}
+              {!isLoading && testimonials.length === 0 ? (
+                <p className="col-span-full text-center text-muted-foreground">Reviews will appear here soon.</p>
+              ) : null}
               {testimonials.map((testimonial, index) => (
                 <motion.div
                   key={index}

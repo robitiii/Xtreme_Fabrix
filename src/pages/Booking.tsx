@@ -43,11 +43,10 @@ const Booking = () => {
     setIsSubmitting(true);
 
     try {
-      const webhookUrl = import.meta.env.VITE_MAKE_BOOKING_WEBHOOK_URL;
+      const webhookUrl = import.meta.env.VITE_GOOGLE_APPS_SCRIPT_BOOKING_URL;
 
       if (!webhookUrl) {
-        console.error("Missing VITE_MAKE_BOOKING_WEBHOOK_URL env variable");
-        throw new Error("Booking webhook URL is not configured.");
+        throw new Error("Booking Apps Script URL is not configured.");
       }
 
       const payload = {

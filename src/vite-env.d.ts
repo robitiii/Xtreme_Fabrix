@@ -1,9 +1,8 @@
 /// <reference types="vite/client" />
 
 interface ImportMetaEnv {
-  readonly VITE_MAKE_BOOKING_WEBHOOK_URL: string;
-  readonly VITE_MAKE_CONTACT_WEBHOOK_URL: string;
-  readonly VITE_MAKE_TESTIMONIAL_WEBHOOK_URL: string;
+  readonly VITE_GOOGLE_APPS_SCRIPT_BOOKING_URL?: string;
+  readonly VITE_GOOGLE_REVIEWS_CSV_URL?: string;
 }
 
 interface ImportMeta {

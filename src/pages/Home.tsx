@@ -1,9 +1,11 @@
 import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import ServiceCard from "@/components/ServiceCard";
 import TestimonialCard from "@/components/TestimonialCard";
+import { fetchReviews, type Review } from "@/lib/reviews";
 import PictureCarousel, { type PictureCarouselItem } from "@/components/PictureCarousel";
 import { Bed, Square, Armchair, Sparkles, Building2, ArrowRight } from "lucide-react";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
@@ -29,6 +31,13 @@ import beforeOvenImage from "@/assets/before-oven.jpg";
 import afterOvenImage from "@/assets/after-oven.jpg";
 
 const Home = () => {
+  const [testimonials, setTestimonials] = useState<Review[]>([]);
+
+  useEffect(() => {
+    const reviewsUrl = import.meta.env.VITE_GOOGLE_REVIEWS_CSV_URL;
+    if (reviewsUrl) fetchReviews(reviewsUrl).then(setTestimonials).catch(() => setTestimonials([]));
+  }, []);
+
   const services = [
     {
       title: "Couches (Cleaning & Care)",
@@ -80,27 +89,6 @@ const Home = () => {
       description: "Professional oven cleaning that removes stubborn grease and burnt-on residue for a like-new finish.",
       beforeImage: afterOvenImage,
       afterImage: beforeOvenImage,
-    },
-  ];
-
-  const testimonials = [
-    {
-      name: "Sarah Thompson",
-      vehicle: "Residential Client",
-      rating: 5,
-      text: "Absolutely phenomenal work! They completely refreshed our home. The couches, carpets, and bedrooms look and feel brand new.",
-    },
-    {
-      name: "Michael van der Merwe",
-      vehicle: "Office Client",
-      rating: 5,
-      text: "Reliable, professional, and thorough. Our office space has never looked better and the team works discreetly around our schedule.",
-    },
-    {
-      name: "Jessica Botha",
-      vehicle: "Apartment Client",
-      rating: 5,
-      text: "They took great care with our furniture and soft finishes. The attention to detail and overall freshness of our home is outstanding.",
     },
   ];
 
@@ -245,12 +233,15 @@ const Home = () => {
 
           <Carousel className="max-w-5xl mx-auto">
             <CarouselContent>
-              {testimonials.map((testimonial, index) => (
+              {testimonials.slice(0, 3).map((testimonial, index) => (
                 <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3">
                   <TestimonialCard {...testimonial} />
                 </CarouselItem>
               ))}
             </CarouselContent>
+            {testimonials.length === 0 ? (
+              <p className="py-8 text-center text-muted-foreground">Reviews will appear here soon.</p>
+            ) : null}
             <CarouselPrevious />
             <CarouselNext />
           </Carousel>

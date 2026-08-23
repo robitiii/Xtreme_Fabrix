@@ -18,10 +18,21 @@ const bookingSchema = z.object({
   emailFabrix: z.string().email("Invalid email address"),
   phoneFabrix: z.string().min(10, "Phone number must be at least 10 digits"),
   serviceTypeFabrix: z.string().min(1, "Please select a service type"),
+  bookingDateFabrix: z.string().min(1, "Please select a booking date"),
+  addressFabrix: z.string().min(5, "Address must be at least 5 characters").max(200),
+  suburbFabrix: z.string().min(2, "Suburb must be at least 2 characters").max(100),
   notesFabrix: z.string().max(500).optional(),
 });
 
 type BookingFormData = z.infer<typeof bookingSchema>;
+
+const getToday = () => {
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = String(today.getMonth() + 1).padStart(2, "0");
+  const day = String(today.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+};
 
 const Booking = () => {
   const { toast } = useToast();
@@ -35,6 +46,9 @@ const Booking = () => {
       emailFabrix: "",
       phoneFabrix: "",
       serviceTypeFabrix: "",
+      bookingDateFabrix: "",
+      addressFabrix: "",
+      suburbFabrix: "",
       notesFabrix: "",
     },
   });
@@ -246,6 +260,50 @@ const Booking = () => {
                               ))}
                             </SelectContent>
                           </Select>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <div className="grid md:grid-cols-2 gap-6">
+                      <FormField
+                        control={form.control}
+                        name="bookingDateFabrix"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Preferred Booking Date *</FormLabel>
+                            <FormControl>
+                              <Input type="date" min={getToday()} {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+
+                      <FormField
+                        control={form.control}
+                        name="suburbFabrix"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Suburb *</FormLabel>
+                            <FormControl>
+                              <Input placeholder="Your suburb" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </div>
+
+                    <FormField
+                      control={form.control}
+                      name="addressFabrix"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Service Address *</FormLabel>
+                          <FormControl>
+                            <Input placeholder="Street address" {...field} />
+                          </FormControl>
                           <FormMessage />
                         </FormItem>
                       )}

@@ -57,7 +57,8 @@ const Booking = () => {
     setIsSubmitting(true);
 
     try {
-      const webhookUrl = import.meta.env.VITE_GOOGLE_APPS_SCRIPT_BOOKING_URL;
+      const webhookUrl = import.meta.env.VITE_GOOGLE_APPS_SCRIPT_BOOKING_URL
+        || "https://script.google.com/macros/s/AKfycbxIVaXJtsFtWS6JVlsXh0FXGoc2LZkhP_yPqc9sD-G3cbv45a8q0izvYX_xIjkjLQ/exec";
 
       if (!webhookUrl) {
         throw new Error("Booking Apps Script URL is not configured.");

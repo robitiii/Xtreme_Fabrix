@@ -57,39 +57,77 @@ const Booking = () => {
     setIsSubmitting(true);
 
     try {
-      const webhookUrl = import.meta.env.VITE_GOOGLE_APPS_SCRIPT_BOOKING_URL
-        || "https://script.google.com/macros/s/AKfycbxIVaXJtsFtWS6JVlsXh0FXGoc2LZkhP_yPqc9sD-G3cbv45a8q0izvYX_xIjkjLQ/exec";
+      const webhookUrl = import.meta.env.VITE_GOOGLE_APPS_SCRIPT_BOOKING_URL;
 
       if (!webhookUrl) {
-        throw new Error("Booking Apps Script URL is not configured.");
+        throw new Error("VITE_GOOGLE_APPS_SCRIPT_BOOKING_URL is not set.");
       }
 
-      const iframeName = `booking-submit-${Date.now()}`;
-      const iframe = document.createElement("iframe");
-      iframe.name = iframeName;
-      iframe.style.display = "none";
+      await new Promise<void>((resolve, reject) => {
+        const iframeName = `booking-submit-${Date.now()}`;
+        const iframe = document.createElement("iframe");
+        const submissionForm = document.createElement("form");
+        let timeoutId: number | undefined;
 
-      const submissionForm = document.createElement("form");
-      submissionForm.method = "POST";
-      submissionForm.action = webhookUrl;
-      submissionForm.target = iframeName;
-      submissionForm.style.display = "none";
+        const cleanup = () => {
+          if (timeoutId !== undefined) {
+            window.clearTimeout(timeoutId);
+          }
+          iframe.remove();
+          submissionForm.remove();
+        };
 
-      Object.entries(data).forEach(([name, value]) => {
-        const input = document.createElement("input");
-        input.type = "hidden";
-        input.name = name;
-        input.value = value ?? "";
-        submissionForm.appendChild(input);
+        timeoutId = window.setTimeout(() => {
+          cleanup();
+          reject(new Error("Booking request timed out."));
+        }, 15_000);
+
+        iframe.name = iframeName;
+        iframe.style.display = "none";
+        iframe.srcdoc = "";
+
+        submissionForm.method = "POST";
+        submissionForm.action = webhookUrl;
+        submissionForm.target = iframeName;
+        submissionForm.style.display = "none";
+
+        Object.entries(data).forEach(([name, value]) => {
+          const input = document.createElement("input");
+          input.type = "hidden";
+          input.name = name;
+          input.value = value ?? "";
+          submissionForm.appendChild(input);
+        });
+
+        // Load a local document first. The following load event is then the
+        // response from Apps Script, rather than the iframe's initial page.
+        iframe.addEventListener(
+          "load",
+          () => {
+            iframe.addEventListener(
+              "load",
+              () => {
+                cleanup();
+                resolve();
+              },
+              { once: true },
+            );
+            submissionForm.submit();
+          },
+          { once: true },
+        );
+        iframe.addEventListener(
+          "error",
+          () => {
+            cleanup();
+            reject(new Error("Booking request could not be sent."));
+          },
+          { once: true },
+        );
+
+        document.body.appendChild(iframe);
+        document.body.appendChild(submissionForm);
       });
-
-      document.body.appendChild(iframe);
-      document.body.appendChild(submissionForm);
-      submissionForm.submit();
-      window.setTimeout(() => {
-        iframe.remove();
-        submissionForm.remove();
-      }, 10000);
 
       console.log("Booking submitted:", data);
 
@@ -176,7 +214,7 @@ const Booking = () => {
                 Book Your <span className="text-primary">Appointment</span>
               </h1>
               <p className="text-xl text-muted-foreground">
-                Request a free consultation and quote for your vehicle
+                Request a free consultation and quote for your cleaning needs
               </p>
             </div>
 

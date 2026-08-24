@@ -64,15 +64,32 @@ const Booking = () => {
         throw new Error("Booking Apps Script URL is not configured.");
       }
 
-      const response = await fetch(webhookUrl, {
-        method: "POST",
-        body: new URLSearchParams(data),
+      const iframeName = `booking-submit-${Date.now()}`;
+      const iframe = document.createElement("iframe");
+      iframe.name = iframeName;
+      iframe.style.display = "none";
+
+      const submissionForm = document.createElement("form");
+      submissionForm.method = "POST";
+      submissionForm.action = webhookUrl;
+      submissionForm.target = iframeName;
+      submissionForm.style.display = "none";
+
+      Object.entries(data).forEach(([name, value]) => {
+        const input = document.createElement("input");
+        input.type = "hidden";
+        input.name = name;
+        input.value = value ?? "";
+        submissionForm.appendChild(input);
       });
 
-      if (!response.ok) {
-        console.error("Booking webhook error", response.status, response.statusText);
-        throw new Error("Failed to submit booking request.");
-      }
+      document.body.appendChild(iframe);
+      document.body.appendChild(submissionForm);
+      submissionForm.submit();
+      window.setTimeout(() => {
+        iframe.remove();
+        submissionForm.remove();
+      }, 10000);
 
       console.log("Booking submitted:", data);
 
